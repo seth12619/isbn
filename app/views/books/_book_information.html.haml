@@ -1,0 +1,36 @@
+.container#book_information
+  .row
+    .col-9
+      %h1
+        Search Result
+  .row
+    .col-4
+      = image_tag book.book_cover_url, alt: "Book Cover", class: "book-image"
+    .col-6
+      %h3
+        = book.title
+      %br
+      %p.fw-bold.fs-5
+        = "by #{book.book_author_list}"
+      %br
+      .book_descriptions
+        %p.fw-bold.fs-5
+          Edition: 
+          %span.fs-5.text-primary
+            = book.edition
+        %p.fw-bold.fs-5
+          Price: 
+          %span.fs-5.text-primary
+            = "PHP #{book.list_price}"
+        %p.fw-bold.fs-5
+          ISBN: 
+          %span.fs-5.text-primary
+            = book.isbn_13
+        %p.fw-bold.fs-5
+          Publication Year: 
+          %span.fs-5.text-primary
+            = book.year
+        %p.fw-bold.fs-5
+          Publisher: 
+          %span.fs-5.text-primary
+            = book.publisher.name

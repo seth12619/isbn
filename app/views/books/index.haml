@@ -1,0 +1,71 @@
+.banner
+  .banner_first_img
+    %img{src: asset_path("26.svg")}
+  .banner_text
+    Save up to $500 per year on millions of book titles!
+  .banner_second_img
+    %img{src: asset_path("26.svg")}
+
+.navbar.navbar-expand-lg.bg-white#navigation_ribbon
+  .container-fluid
+    %a.navbar-brand.logo_box{href: root_path}
+      %img{src: asset_path("sample logo.svg")}
+    %button.navbar-toggler{type: "button", "data-bs-toggle": "collapse", "data-bs-target": "#navbarSupportedContent", "aria-controls": "navbarSupportedContent", "aria-expanded": "false", "aria-label": "Toggle navigation"}
+      %span.navbar-toggler-icon
+    .collapse.navbar-collapse#navbarSupportedContent
+      = form_tag search_books_path, method: :post, id: "search_bar", class: "d-flex" do
+        .input-group.rounded-pill
+          %button.btn.btn-primary.search_icon.rounded-pill-start.bg-white.border-end-0{type: "submit", disabled: true}
+            %i.bi.bi-search{style: "color: black;"}
+          %input.form-control.rounded-pill-end.search_box{type: "text", placeholder: "Search", name: "isbn", onkeypress: "submitOnEnter(event)"}
+      %ul.navbar-nav.me-auto.mb-2.mb-lg-0
+        %li.nav-item.navbar-text.px-5
+          %a.nav-link.active{href: root_path}
+            Home
+        %li.nav-item.navbar-text.px-5
+          %a.nav-link.active{href: "#"}
+            Rent Textbooks
+        %li.nav-item.navbar-text.px-5
+          %a.nav-link.active{href: "#"}
+            Buy Textbooks
+        %li.nav-item.navbar-text.px-5
+          %a.nav-link.active{href: "#"}
+            Sell Textbooks
+        %li.nav-item.navbar-text.px-5
+          %a.nav-link.active{href: "#"}
+            |
+            %img{src: asset_path("Icon feather-globe.svg")}
+            En
+        %li.nav-item
+          %a.nav-link.active{href: "#", onclick: "toggleISBNTransformer()"}
+            %button.btn.btn-primary.contact_btn
+              Contact
+
+.transform_isbn{style: "display: none"}
+  = render partial: 'books/transform_isbn'
+- if @search_result == "invalid_isbn"
+  %h1
+    Invalid ISBN
+- elsif @search_result == "valid_isbn"
+  = render partial: 'books/book_information', locals: { book: @book }
+- else
+  = render partial: 'shared/application_root'
+
+= render partial: 'shared/footer'
+
+:javascript
+  function submitOnEnter(event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      $("#search_bar").submit();
+    }
+  }
+
+  function toggleISBNTransformer() {
+    var transform_isbn_div = document.querySelector('.transform_isbn');
+    if (transform_isbn_div.style.display == 'none') {
+      transform_isbn_div.style.display = 'block';
+    } else {
+      transform_isbn_div.style.display = 'none';
+    }
+  }

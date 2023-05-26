@@ -1,0 +1,31 @@
+%h3
+  Please enter an isbn to transform it ti ISBN-10 or vice versa
+
+%input#isbn_input
+
+%p.fw-bold= " => "
+
+%input#isbn_output
+
+:javascript
+
+  $(document).ready(function() {
+    $('#isbn_input').on('keydown', function() {
+      var isbn = $(this).val();
+      // when enter is pressed
+      if (event.keyCode === 13) {
+        $.ajax({
+          type: 'GET',
+          url: '/books/isbn_transformer',
+          data: { isbn: isbn },
+          dataType: 'json',
+          success: function(response) {
+            $('#isbn_output').val(response.transformed_isbn);
+          },
+          error: function() {
+            $('#isbn_output').val("Invalid ISBN");
+          }
+        });
+      }
+    });
+  });
